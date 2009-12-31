@@ -23,12 +23,25 @@ has 'commit' => (
     isa     => 'VCI::Abstract::Commit',
 );
 
+# Working directory
+#   In order to run multiple jobs on the same project concurrently, we'll need
+#   to have multiple copies of the source repository on the disk
+has 'dir' => (
+    is      => 'rw',
+    isa     => 'Str',
+);
 
 sub run {
     my ( $self ) = @_;
+
+    # Checkout the commit into the working directory
+
     until ( $self->is_done ) {
         $self->get_next_task->run;
     }
+
+    # Hold onto the working directory for the next job for this project
+    
 }
 
 1;

@@ -1,5 +1,6 @@
 package Cradle::Runner;
 
+# XXX: Do we really need this? I'm gonna try doing without it
 # Run a Job in a newly-spawned process
 # Run all the Tasks in the Job
 # Receive the Job object from IKC
@@ -13,14 +14,6 @@ has 'job' => (
     handles => [qw{ project stash }],
 );
 
-
-# Working directory
-#   In order to run multiple jobs on the same project concurrently, we'll need
-#   to have multiple copies of the source repository on the disk
-has 'dir' => (
-    is      => 'rw',
-    isa     => 'Str',
-);
 
 
 

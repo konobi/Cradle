@@ -4,11 +4,10 @@ Cradle -- Continual integration testing in Perl
 REQUIREMENTS
 -------------------------
 * POE
-* POE::Component::IKC::Server
-* POE::Component::IKC::Client
-* POE::Component::Child
 * Moose
 * MooseX::Runnable
 * MooseX::Getopt
 * MooseX::SimpleConfig
 * VCI
+* DateTime
+
