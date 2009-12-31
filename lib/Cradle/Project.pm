@@ -12,6 +12,10 @@ has 'last_check' => (
     default => sub { DateTime->now->subtract( days => 3 ) },
 );
 
+has 'last_revision' => (
+    is      => 'rw',
+);
+
 has 'master' => (
     is      => 'ro',
     isa     => 'Cradle::Master',
@@ -76,14 +80,17 @@ sub check {
     my ( $self, $kernel ) = @_[OBJECT, KERNEL];
     print "Checking " . $self->name . "\n";
     my @commits = $self->get_commits_since( $self->last_check );
-    $self->last_check( time );
     for my $commit ( @commits ) {
+        # get_commits_since is inclusive
+        next if ( $commit->revision eq $self->last_revision );
         # Create a new session to handle the job
         print "Spawning job " . $self->name . " commit " . $commit->revision,
             "\n"
             ;
         
         $kernel->yield( 'spawn_job', $commit );
+        $self->last_check( $commit->time );
+        $self->last_revision( $commit->revision );
     }
 
     $kernel->delay( 'check' => 5, $self );
