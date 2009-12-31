@@ -9,6 +9,9 @@ projects:
     tasks:
         -   class:      Cradle::Task::Make
         -   class:      Cradle::Task::Prove
+            cover:      1
+    reports:
+        -   class:      Cradle::Report::Coverage
 -   name:         Cradle
     source:
         type:       git
@@ -17,4 +20,6 @@ projects:
     tasks:
         -   class:      Cradle::Task::Make
         -   class:      Cradle::Task::Prove
+    reports:
+        -   class:      Cradle::Report::Smolder
 
