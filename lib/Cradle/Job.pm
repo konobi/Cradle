@@ -2,6 +2,9 @@ package Cradle::Job;
 
 # Run the tasks for a project on a commit
 
+use Moose;
+use POE;
+
 has 'project' => (
     is      => 'rw',
     isa     => 'Cradle::Project',
@@ -35,9 +38,9 @@ sub run {
     my ( $self ) = @_;
 
     # Checkout the commit into the working directory
-
+    print "Running job " . $self->project->name . "\n";
     until ( $self->is_done ) {
-        $self->get_next_task->run;
+        $self->get_next_task->run( $self );
     }
 
     # Hold onto the working directory for the next job for this project

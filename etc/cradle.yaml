@@ -1,14 +1,20 @@
 work_dir:   /tmp
 port:       1000
 projects:
-- name:         WebGUI
-  source:
-    type:       git
-    repo:       /data
-    name:       WebGUI_Core
-- name:         Cradle
-  source:
-    type:       git
-    repo:       /Users/doug
-    name:       Cradle
+-   name:         WebGUI
+    source:
+        type:       git
+        repo:       /data
+        name:       WebGUI_Core
+    tasks:
+        -   class:      Cradle::Task::Make
+        -   class:      Cradle::Task::Prove
+-   name:         Cradle
+    source:
+        type:       git
+        repo:       /Users/doug
+        name:       Cradle
+    tasks:
+        -   class:      Cradle::Task::Make
+        -   class:      Cradle::Task::Prove
 

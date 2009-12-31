@@ -7,6 +7,7 @@ package Cradle::Master;
 #   -- OR --
 #   * Spawning Runner to run Job Tasks
 
+
 use Moose;
 with 'MooseX::SimpleConfig';
 with 'MooseX::Getopt';
@@ -73,7 +74,7 @@ sub run {
     
     POE::Session->create(
         object_states => [
-            $self   => [ '_start', 'check_project' ],
+            $self   => [ '_start' ],
         ],
     );
 
@@ -83,22 +84,8 @@ sub run {
 sub _start {
     my ( $self, $kernel ) = @_[OBJECT, KERNEL];
     for my $project ( @{$self->projects} ) {
-        $project = Cradle::Project->new( %$project );
-        $kernel->yield( 'check_project', $project );
+        $project = Cradle::Project->new( %$project, master => $self );
     }
-}
-
-sub check_project {
-    my ( $self, $kernel, $project ) = @_[OBJECT, KERNEL, ARG0];
-
-    for my $commit ( $project->get_commits_since( $project->last_check ) ) {
-        # Create a new session to handle the job
-        print "Running job for " . $project->name . " commit " . $commit->revision,
-            "\n"
-            ;
-    }
-
-    $kernel->delay( 'check_project' => $self->check_interval, $project );
 }
 
 1;
